@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="./static/css/styles.css" />
+  <script type="text/javascript">
+    function display_c() {
+      var refresh = 1000; // Refresh rate in milli seconds
+      mytime = setTimeout("display_ct()", refresh);
+    }
+
+    function display_ct() {
+      var x = new Date();
+      var x1 = x.getDate() + "/" + (x.getMonth() + 1) + "/" + x.getFullYear();
+      x1 =
+        x1 +
+        " - " +
+        (x.getHours() < 10 ? '0' + x.getHours() : x.getHours()) +
+        ":" +
+        (x.getMinutes() < 10 ? '0' + x.getMinutes() : x.getMinutes()) +
+        ":" +
+        (x.getSeconds() < 10 ? '0' + x.getSeconds() : x.getSeconds());
+      document.getElementById("ct").innerHTML = x1;
+      display_c();
+    }
+  </script>
+  <script src="https://cdn.anychart.com/releases/8.11.0/js/anychart-base.min.js"></script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <title>Home page</title>
+</head>
+
+<body onload="display_ct();" style="overflow-y: auto">
+  <nav class="navbar navbar-expand-md bg">
+    <a href="" class="navbar-brand fs-3 ms-3 text-white">IoT_13.Hệ thống tưới cây thông minh</a>
+    <span id="ct" class="justify-content-center" style="color: white; width: 200px"></span>
+
+    <button class="navbar-toggler me-3 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#btn">
+      <i class="bx bx-menu bx-md"></i>
+    </button>
+    <div class="collapse navbar-collapse ul-bg" id="btn">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a href="#" class="nav-link mx-3 text-white fs-5" onclick="logout()">Đăng xuất</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <section id="LayThongTin">
+      <div class="inline-block">
+        <label>Độ ẩm đất: <span id="soilHum">70%</span></label>
+      </div>
+      <div class="inline-block">
+        <label>Độ ẩm không khí: <span id="hum">90%</span></label>
+      </div>
+      <div class="inline-block">
+        <label>Nhiệt độ: <span id="tem">20°C</span></label>
+      </div>
+      <div class="inline-block">
+        <label>Dự đoán mưa: <span id="rainF">80% Không mưa</span></label>
+      </div>
+    </section>
+    <!-- Dieu chinh do am dat -->
+
+    <div class="nav">
+      <div class="left">
+        <section id="DieuChinh">
+          <div id="ThanhTruot">
+            <div class="doam">
+              <ul id="ul-thanhtruot">
+                <li>
+                  <span for="">Ngưỡng độ ẩm:</span>
+                </li>
+                &nbsp &nbsp
+                <li>
+                  <span id="rangeValue">0</span>
+                </li>
+              </ul>
+              <input class="range" type="range" name="" value="0" min="0" max="100" id="inpRangeValue" onChange="rangeSlide(this.value)"
+                onmousemove="rangeSlide(this.value)" />
+            </div>
+          </div>
+          <div id="CongTac">
+            <ul id="ul-congtac">
+              <li>
+                <div id="CongTac1">
+                  <!-- Rounded switch -->
+                  <label for="">Chế độ tự động: </label>
+                  <label class="switch custom-sw1">
+                    <input type="checkbox" onclick="CT1(this)" id="ct1at"/>
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+
+              </li>
+              <li>
+                <div id="CongTac2">
+                  <!-- Rounded switch -->
+                  <label for="">Tưới cây: </label>
+                  <label class="switch custom-sw2">
+                    <input type="checkbox" id="ct2p" onclick="CT2(this)"/>
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </section>
+      </div>
+      <div class="right">
+        <section id="HenGio" class="container">
+          <table id="table-hengio" style="width: 100%">
+            <thead>
+              <tr>
+                <th>Hẹn giờ tưới cây</th>
+                <th></th>
+                <th>
+                  <button class="qbtn">
+                    <i class="ti-plus" onclick="openFormHG()"></i>
+                  </button>
+                </th>
+              </tr>
+            </thead>
+            <tbody id="henGioTC">
+              <tr>
+                <td>11:48</td>
+                <td>12/11/2022</td>
+                <td>
+                  <button class="qbtn">
+                    <i class="ti-trash"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>12:00</td>
+                <td>Mỗi ngày</td>
+                <td>
+                  <button class="qbtn">
+                    <i class="ti-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </div>
+
+    </div>
+    <section id="BieuDo">
+      <div id="linechart_material" style="width: 900px; height: 500px" class="container chart-style"></div>
+    </section>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+</body>
+<script src="./static/js/homepage.js"></script>
+<div class="navc" id="formHenGioTC" style="display: none;">
+  <div class="cont">
+    <div class="header">
+      <div class="title">Hẹn giờ tưới cây</div>
+      <div class="icon"><i class="ti-close" onclick="closeFormHG()"></i></div>
+    </div>
+    <div class="content">
+      <div class="lable">Thời gian</div>
+      <input type="time" name="" id="timeHG" class="inp">
+      <div class="lable">Loại hẹn giờ</div>
+      <input type="radio" name="typeTimer" id="" checked value="0" onclick="chooseTypeTimer(this)">Mỗi ngày
+      <input type="radio" name="typeTimer" id="" value="1" onclick="chooseTypeTimer(this)">Một lần
+      <div id="oneDay" style="display: none;">
+        <div class="lable">Ngày</div>
+        <input type="date" class="inp" id="dateHG">
+      </div>
+      <div class="footer">
+        <button class="qbtn" onclick="saveFormHG()">Lưu</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</html>
